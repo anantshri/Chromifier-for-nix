@@ -5,8 +5,14 @@ function help {
 	echo "<PROFILE_LOCATION> and <custom_arg> are optional"
 	echo "if no input provided then standard location used"
 }
+# if we don't have any arguments lets not waste our time
+if [ $# -lt 1 ]
+then
+	help
+	exit
+fi
 url_regex='(https?|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
-default_arg="--disable-gpu"
+default_arg="--disable-gpu --disable-sync"
 custom_arg=""
 name=$1
 url=$2
@@ -54,7 +60,8 @@ cat >$HOME/.local/share/applications/$name.desktop <<EOF
 [Desktop Entry]
 Type=Application
 Name=$name
-Exec="$BROWSER" $default_arg $custom_arg --app="$url" --user-data-dir="$profile" "\$@"
+Exec="$BROWSER" $default_arg $custom_arg --app="$url" --class=APP_$name --user-data-dir="$profile" "\$@"
 Icon=$profile/icon.png
+StartupWMClass=APP_$name
 Categories=Application;
 EOF
