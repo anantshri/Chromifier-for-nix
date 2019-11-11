@@ -55,7 +55,7 @@ else
 	echo "Icon Missing"
 	echo "$default_icon" | base64 --decode > $profile/icon.png
 fi
-cat >$HOME/.local/share/applications/$name.desktop <<EOF
+cat >"$HOME/.local/share/applications/$name.desktop" <<EOF
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Type=Application
